@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quentix-app
+    ports:
+      - "8000:8000"  # Port pour Laravel
+      - "5173:5173"  # Port pour Vite
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor  # Ne pas écraser `vendor/`
+      - /var/www/html/node_modules # Ne pas monter node_modules
+    networks:
+      - quentix-network
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: 192.168.10.100
+      DB_PORT: 3306
+      DB_DATABASE: Quentix_DB
+      DB_USERNAME: laravel_user
+      DB_PASSWORD: L@r@velPass123
+networks:
+  quentix-network:
+    driver: bridge
